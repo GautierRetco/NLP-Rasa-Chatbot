@@ -1,30 +1,75 @@
 version: "3.1"
 
 stories:
-
-- story: happy path
+- story: say hello
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
+  - intent: greetings
+  - action: utter_presentation
+  - action: utter_information
 
-- story: sad path 1
+- story: more information genre
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
+  - intent: inform_movie
+  - action: utter_more_information_genre
   - intent: affirm
-  - action: utter_happy
+  - action: utter_go_on
+  - intent: inform_genre
+  - action: action_recommend_movie
 
-- story: sad path 2
+- story: more information genre yes
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
+  - intent: inform_movie
+  - action: utter_more_information_genre
+  - intent: inform_genre
+  - action: action_recommend_movie
+
+- story: more information genre no
+  steps:
+  - intent: inform_movie
+  - action: utter_more_information_genre
   - intent: deny
-  - action: utter_goodbye
+  - action: action_recommend_movie
+
+- story: more information movie no
+  steps:
+  - intent: inform_genre
+  - action: utter_more_information_movie
+  - intent: deny
+  - action: action_recommend_movie
+
+- story: more information movie yes
+  steps:
+  - intent: inform_genre
+  - action: utter_more_information_movie
+  - intent: affirm
+  - action: utter_go_on
+  - intent: inform_movie
+  - action: action_recommend_movie
+
+- story: more information movie yes
+  steps:
+  - intent: inform_genre
+  - action: utter_more_information_movie
+  - intent: inform_movie
+  - action: action_recommend_movie
+
+- story: no need for more information 1
+  steps:
+  - intent: inform_genre
+    entities:
+      - genre
+      - movies
+  - action: action_recommend_movie
+
+- story: no need for more information 2
+  steps:
+  - intent: inform_movie
+    entities:
+    - genre
+    - movies
+  - action: action_recommend_movie
+
+- story: user asks recommendation
+  steps:
+  - intent: user_ask_movie
+  - action: utter_information

@@ -1,34 +1,40 @@
 version: "3.1"
 
+entities:
+  - genre
+  - movie
 intents:
-  - greet
-  - goodbye
+  - inform_genre
+  - inform_movie
   - affirm
+  - user_ask_movie
   - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
+  - greetings
+
+actions:
+  - action_recommend_movie
+  - utter_more_information_genre
+  - utter_go_on
+  - utter_more_information_movie
+  - utter_information
+  - utter_presentation
 
 responses:
-  utter_greet:
-  - text: "Hey! How are you?"
+  utter_presentation:
+  - text: "Hello! I'm the movie recommendation bot. I'm here to help you discover exciting new movies. Feel free to ask me questions about movies or request recommendations."
 
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
+  utter_more_information_movie:
+  - text: "Do you want to add a movie you like as reference ?"
 
-  utter_did_that_help:
-  - text: "Did that help you?"
+  utter_more_information_genre:
+  - text: "Do you want to specify a specific genre ?"
 
-  utter_happy:
-  - text: "Great, carry on!"
-
-  utter_goodbye:
-  - text: "Bye"
-
-  utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
-
+  utter_information:
+  - text : "For me to give you a movie, tell me a movie you like or a type of movie you'd like to see."
+  
+  utter_go_on:
+  - text : "Okay, then give it to me."
+  
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
