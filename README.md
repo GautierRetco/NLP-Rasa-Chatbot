@@ -7,3 +7,6 @@
 
 > pip install rasa
 
+> rasa train
+> rasa run actions
+> rasa shell
