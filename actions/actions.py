@@ -9,25 +9,42 @@ class ActionDisplayEntityHistory(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        entity_history = {}
+        
+        query = {}
+        set = {}
         for event in reversed(tracker.events):
             if event.get('event') == 'action' and event.get('name') == 'action_recommend_movie':
                 break
-            if 'parse_data' in event and 'entities' in event['parse_data']:
-                for entity in event['parse_data']['entities']:
-                    entity_name = entity['entity']
-                    entity_value = entity['value']
-                    if entity_name not in entity_history:
-                        entity_history[entity_name] = [entity_value]
-                    else:
-                        if entity_value not in entity_history[entity_name]:
-                            entity_history[entity_name].append(entity_value)
+            if event.get('event') == 'user':
+                # Afficher le texte du chat de l'utilisateur
+                dispatcher.utter_message(text=event.get('text'))
+                
+                intent_name = event.get('parse_data', {}).get('intent', {}).get('name')
+                
+                if intent_name:
 
-        if entity_history:
-            for entity_name, values in entity_history.items():
-                dispatcher.utter_message(f"Historique des valeurs pour l'entité '{entity_name}': {', '.join(values)}")
-        else:
-            dispatcher.utter_message("Aucune entité n'a été détectée dans les messages précédents de la conversation.")
+                    if intent_name == "inform_movie":
+                        query['target_movie_title'] = event.get('text')
 
+                    elif intent_name == "inform_genre":
+                        query['genre'] = event.get('text')
+
+                    elif intent_name == "inform_cast":
+                        if "cast" in set:
+                            set["cast"].append(event.get('text'))
+                        else:
+                            set["cast"] = [event.get('text')]
+
+                    elif intent_name == "inform_director":
+                        set["director"] = event.get('text')
+
+                    elif intent_name == "inform_composer":
+                        set["composer"] = event.get('text')
+
+                    elif intent_name == "inform_topic":
+                        query["topic"] = event.get('text')
+                            
+        
+        query["set"] = set
+        dispatcher.utter_message(text=f"Query : {query}")
         return []

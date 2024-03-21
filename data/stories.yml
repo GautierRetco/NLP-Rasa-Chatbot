@@ -7,69 +7,18 @@ stories:
   - action: utter_presentation
   - action: utter_information
 
-- story: more information genre
-  steps:
-  - intent: inform_movie
-  - action: utter_more_information_genre
-  - intent: affirm
-  - action: utter_go_on
-  - intent: inform_genre
-  - action: action_recommend_movie
-
-- story: more information genre yes
-  steps:
-  - intent: inform_movie
-  - action: utter_more_information_genre
-  - intent: inform_genre
-  - action: action_recommend_movie
-
-- story: more information genre no
-  steps:
-  - intent: inform_movie
-  - action: utter_more_information_genre
-  - intent: deny
-  - action: action_recommend_movie
-
-- story: more information movie no
-  steps:
-  - intent: inform_genre
-  - action: utter_more_information_movie
-  - intent: deny
-  - action: action_recommend_movie
-
-- story: more information movie yes
-  steps:
-  - intent: inform_genre
-  - action: utter_more_information_movie
-  - intent: affirm
-  - action: utter_go_on
-  - intent: inform_movie
-  - action: action_recommend_movie
-
-- story: more information movie yes
-  steps:
-  - intent: inform_genre
-  - action: utter_more_information_movie
-  - intent: inform_movie
-  - action: action_recommend_movie
-
-- story: no need for more information 1
-  steps:
-  - intent: inform_genre
-    entities:
-      - genre
-      - movies
-  - action: action_recommend_movie
-
-- story: no need for more information 2
-  steps:
-  - intent: inform_movie
-    entities:
-    - genre
-    - movies
-  - action: action_recommend_movie
-
-- story: user asks recommendation
+- story: user ask movie
   steps:
   - intent: user_ask_movie
-  - action: utter_information
+  - action: action_recommend_movie
+
+- story: user give informations
+  steps:
+    - or:
+      - intent: inform_genre
+      - intent: inform_movie
+      - intent: inform_cast
+      - intent: inform_director
+      - intent: inform_composer
+      - intent: inform_topic
+    - action: utter_go_on

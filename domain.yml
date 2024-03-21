@@ -1,21 +1,18 @@
 version: "3.1"
 
-entities:
-  - genre
-  - movie
 intents:
+  - greetings
+  - user_ask_movie
   - inform_genre
   - inform_movie
-  - affirm
-  - user_ask_movie
-  - deny
-  - greetings
+  - inform_cast
+  - inform_director
+  - inform_composer
+  - inform_topic
 
 actions:
   - action_recommend_movie
-  - utter_more_information_genre
   - utter_go_on
-  - utter_more_information_movie
   - utter_information
   - utter_presentation
 
@@ -23,17 +20,11 @@ responses:
   utter_presentation:
   - text: "Hello! I'm the movie recommendation bot. I'm here to help you discover exciting new movies. Feel free to ask me questions about movies or request recommendations."
 
-  utter_more_information_movie:
-  - text: "Do you want to add a movie you like as reference ?"
-
-  utter_more_information_genre:
-  - text: "Do you want to specify a specific genre ?"
-
   utter_information:
   - text : "For me to give you a movie, tell me a movie you like or a type of movie you'd like to see."
   
   utter_go_on:
-  - text : "Okay, then give it to me."
+  - text : "Okay, you can give me some more elements or ask me to make a recommendation."
   
 session_config:
   session_expiration_time: 60
