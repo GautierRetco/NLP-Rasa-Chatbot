@@ -11,8 +11,9 @@ class ActionDisplayEntityHistory(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         entity_history = {}
-
         for event in reversed(tracker.events):
+            if event.get('event') == 'action' and event.get('name') == 'action_recommend_movie':
+                break
             if 'parse_data' in event and 'entities' in event['parse_data']:
                 for entity in event['parse_data']['entities']:
                     entity_name = entity['entity']
