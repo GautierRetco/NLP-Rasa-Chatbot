@@ -12,6 +12,18 @@ import recommendation
 data = pd.read_csv("./recommendation_models/final_english_dataset_with_preprocess_on_overview.csv")
 cos_sim = joblib.load('./recommendation_models/matrix_similarity.pkl')
 
+def recommend_movies_string(movies):
+    recommendation = "I can recommend you : \n"
+    for i, movie in enumerate(movies, start=1):
+        recommendation += f"{i}. {movie}\n"
+    return recommendation
+
+def format_list(queries):
+    res = "Sorry, I didn't manage to understand : \n"
+    for query in queries:
+        res+='  * ' + query + '\n'
+    return res
+
 class ActionDisplayEntityHistory(Action):
     def name(self) -> Text:
         return "action_recommend_movie"
@@ -20,16 +32,13 @@ class ActionDisplayEntityHistory(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         current_directory = os.getcwd()
-        print("Current Working Directory:", current_directory)
         query = {}
         set = {}
         for event in reversed(tracker.events):
             if event.get('event') == 'action' and event.get('name') == 'action_recommend_movie':
                 break
             if event.get('event') == 'user':
-                # Afficher le texte du chat de l'utilisateur
-                dispatcher.utter_message(text=event.get('text'))
-                
+
                 intent_name = event.get('parse_data', {}).get('intent', {}).get('name')
                 
                 if intent_name:
@@ -56,7 +65,12 @@ class ActionDisplayEntityHistory(Action):
                         query["topic"] = event.get('text')
         if set!={}:
             query["set"] = set
-        print(f"Query : {query}")
-        dispatcher.utter_message(text=f"Query : {query}")
-        dispatcher.utter_message(text=f"{recommendation.make_recommendation(query, data, cos_sim)}")
+
+        recommendations, failed_entities = recommendation.get_recommendations(query, data, cos_sim)
+        if len(failed_entities)>0:
+            dispatcher.utter_message(text = f"{format_list(failed_entities)}")
+            dispatcher.utter_message(text=f"\nWithout taking it into account, {recommend_movies_string(recommendations)}\n")
+            dispatcher.utter_message(text="\nTo make it easier for me, use capital letters for the beginning of names and try with quotation marks")
+        else:
+            dispatcher.utter_message(text=f"{recommend_movies_string(recommendations)}")
         return []
