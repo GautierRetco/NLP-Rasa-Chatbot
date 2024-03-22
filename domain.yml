@@ -18,10 +18,10 @@ actions:
 
 responses:
   utter_presentation:
-  - text: "Hello! I'm the movie recommendation bot. I'm here to help you discover exciting new movies. Feel free to ask me questions about movies or request recommendations."
+  - text: "Hello! I'm the movie recommendation bot. I'm here to help you discover exciting new movies. Feel free to request recommendations."
 
   utter_information:
-  - text : "For me to give you a movie, tell me a movie you like or a type of movie you'd like to see."
+  - text : "For me to give you a movie, give me some pieces of information like a movie you like, a movie genre or an actor."
   
   utter_go_on:
   - text : "Okay, you can give me some more elements or ask me to make a recommendation."
