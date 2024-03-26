@@ -32,8 +32,7 @@ class ActionDisplayEntityHistory(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        current_directory = os.getcwd()
-
+        
         query = {}
         set = {}
         for event in reversed(tracker.events):
@@ -67,7 +66,7 @@ class ActionDisplayEntityHistory(Action):
                         query["topic"] = event.get('text')
         if set!={}:
             query["set"] = set
-
+        print(query)
         recommendations, failed_entities = recommendation.get_recommendations(query, data, cos_sim, expanded_keywords)
         if len(failed_entities)>0:
             dispatcher.utter_message(text = f"{format_list(failed_entities)}")

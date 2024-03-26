@@ -54,7 +54,7 @@ def similarity_extraction_in_dict(dictionnary, data,expanded_keywords):
             else : 
                 failed_extractions.append(value)
         elif isinstance(value, dict):
-            new_dict[key] = similarity_extraction_in_dict(value,data,expanded_keywords)
+            new_dict[key], failed_extractions = similarity_extraction_in_dict(value,data,expanded_keywords)
         elif isinstance(value,list):
             for elem in value : 
                 entities, extracted = extract_entities_from_text(elem)
