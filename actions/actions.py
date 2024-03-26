@@ -14,9 +14,12 @@ cos_sim = joblib.load('./recommendation_models/matrix_similarity.pkl')
 expanded_keywords = joblib.load('./recommendation_models/expanded_keywords.pkl')
 
 def recommend_movies_string(movies):
-    recommendation = "I can recommend you : \n"
-    for i, movie in enumerate(movies, start=1):
-        recommendation += f"{i}. {movie}\n"
+    if movies!=[]:
+        recommendation = "I can recommend you : \n"
+        for i, movie in enumerate(movies, start=1):
+            recommendation += f"{i}. {movie}\n"
+    else : 
+        recommendation = "Sorry, I didn't manage to find any movie matching your query"
     return recommendation
 
 def format_list(queries):
@@ -25,6 +28,15 @@ def format_list(queries):
         res+='  * ' + query + '\n'
     return res
 
+def format_final_dict(final_dict):
+    if final_dict!={}:
+        res = "The constraints taken into account in your query are :\n"
+        for key, value in final_dict.items():
+                res += f"{key} : {value}\n"
+    else :
+        res = ""
+    return res + "\n"
+    
 class ActionDisplayEntityHistory(Action):
     def name(self) -> Text:
         return "action_recommend_movie"
@@ -66,12 +78,13 @@ class ActionDisplayEntityHistory(Action):
                         query["topic"] = event.get('text')
         if set!={}:
             query["set"] = set
-        print(query)
-        recommendations, failed_entities = recommendation.get_recommendations(query, data, cos_sim, expanded_keywords)
+        recommendations, failed_entities, final_dictionnary = recommendation.get_recommendations(query, data, cos_sim, expanded_keywords)
         if len(failed_entities)>0:
+            dispatcher.utter_message(text = format_final_dict(final_dictionnary))
             dispatcher.utter_message(text = f"{format_list(failed_entities)}")
             dispatcher.utter_message(text=f"\nWithout taking it into account, {recommend_movies_string(recommendations)}\n")
             dispatcher.utter_message(text="\nTo make it easier for me, use capital letters for the beginning of names and try with quotation marks")
         else:
+            dispatcher.utter_message(text = format_final_dict(final_dictionnary))
             dispatcher.utter_message(text=f"{recommend_movies_string(recommendations)}")
         return []

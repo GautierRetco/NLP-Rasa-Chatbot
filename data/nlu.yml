@@ -213,37 +213,6 @@ nlu:
     - I would like a movie with Christian Bale
 
 
-- intent: inform_composer
-  examples: |
-    - I really like Hans Zimmer's film scores
-    - John Williams is a legendary composer
-    - Ennio Morricone's music is iconic
-    - Alan Silvestri's scores are amazing
-    - I'm a huge fan of Danny Elfman's compositions
-    - Can you suggest a movie with music by James Horner?
-    - What films has Howard Shore composed music for?
-    - I'm interested in movies with scores by Thomas Newman
-    - I love listening to Alexandre Desplat's film music
-    - James Newton Howard is my favorite film composer
-    - Any recommendations with music by Michael Giacchino?
-    - What are some films with music by John Powell?
-    - I really admire James Newton Howard's work
-    - Is there a movie with music by Jerry Goldsmith?
-    - Who are some composers similar to Hans Zimmer?
-    - Any suggestions with music by John Debney?
-    - I'm a fan of Alan Menken's film scores
-    - Ennio Morricone is a legendary composer
-    - I'm looking for films with music by Danny Elfman
-    - James Horner's compositions are beautiful
-    - Howard Shore's music is unforgettable
-    - Thomas Newman's scores are emotionally stirring
-    - Alexandre Desplat is a talented composer
-    - Michael Giacchino's music adds depth to films
-    - John Powell's scores are energetic
-    - James Newton Howard's compositions are mesmerizing
-    - Jerry Goldsmith's music is timeless
-
-
 - intent: inform_topic
   examples: |
     - A movie with zombies

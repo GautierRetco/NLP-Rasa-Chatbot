@@ -56,12 +56,14 @@ def similarity_extraction_in_dict(dictionnary, data,expanded_keywords):
         elif isinstance(value, dict):
             new_dict[key], failed_extractions = similarity_extraction_in_dict(value,data,expanded_keywords)
         elif isinstance(value,list):
+            new_entities = []
             for elem in value : 
                 entities, extracted = extract_entities_from_text(elem)
                 entity = entities[0]
                 all_actors = get_list_data('cast', data)
                 entity = find_closest_match_fuzzy(entity, all_actors)
-            new_dict[key]= entity
+                new_entities.append(entity)
+            new_dict[key]= new_entities
         elif isinstance(value, str) and key == 'genre': 
             # expanded_keywords = joblib.load('expanded_keywords.pkl')
             entity = find_genre(value,expanded_keywords)
@@ -91,7 +93,7 @@ def get_recommendations_from_title(dict, data,cos_sim):
             for second_key, second_value in value.items() :
                 if 'cast' == second_key: 
                     filtered_data = filter_by_cast(filtered_data, second_value)
-                elif 'director' == second_key: 
+                else : 
                     filtered_data = filter_by_director(filtered_data, second_value)
         if 'genre' == key :
             filtered_data = filter_by_genre(filtered_data, value)
@@ -119,8 +121,12 @@ def get_recommendations_from_title(dict, data,cos_sim):
 
 
 def filter_by_cast(data, value):
-    mask = data['cast'].apply(lambda x: value in x)
-    filtered_data = data[mask]
+    if  isinstance(value, list):
+        mask = data['cast'].apply(lambda x: all(actor in x for actor in value))
+        filtered_data = data[mask]        
+    else : 
+        mask = data['cast'].apply(lambda x: value in x)
+        filtered_data = data[mask]
     return filtered_data
 
 
@@ -146,13 +152,11 @@ def get_recommendations(dictionnary, data, cos_sim, expanded_keywords):
                 for second_key, second_value in value.items() :
                     if 'cast' ==second_key: 
                         filtered_data =  filter_by_cast(filtered_data, second_value)
-                    elif 'director' ==second_key: 
+                    else: 
                         filtered_data = filter_by_director(filtered_data, second_value)
-                    else : 
-                        filtered_data
             if 'genre' ==key : 
                 filtered_data = filter_by_genre(filtered_data, value)
         filtered_data = filtered_data.sort_values(by='popularity', ascending=False)
         recommendation = filtered_data['original_title'].head(20).tolist()
-    return recommendation, failed_extractions
+    return recommendation, failed_extractions, final_dictionnary
 

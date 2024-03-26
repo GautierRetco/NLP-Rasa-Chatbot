@@ -7,7 +7,6 @@ intents:
   - inform_movie
   - inform_cast
   - inform_director
-  - inform_composer
   - inform_topic
 
 actions:
