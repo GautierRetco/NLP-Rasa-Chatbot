@@ -68,11 +68,11 @@ class ActionDisplayEntityHistory(Action):
         if set!={}:
             query["set"] = set
 
-        recommendations = recommendation.get_recommendations(query, data, cos_sim, expanded_keywords)
-        # if len(failed_entities)>0:
-        #     dispatcher.utter_message(text = f"{format_list(failed_entities)}")
-        dispatcher.utter_message(text=f"\nHere is the entities that I took in account for the recommandation, {query}\n")
-        #     dispatcher.utter_message(text="\nTo make it easier for me, use capital letters for the beginning of names and try with quotation marks")
-        # else:
-        dispatcher.utter_message(text=f"{recommend_movies_string(recommendations)}")
+        recommendations, failed_entities = recommendation.get_recommendations(query, data, cos_sim, expanded_keywords)
+        if len(failed_entities)>0:
+            dispatcher.utter_message(text = f"{format_list(failed_entities)}")
+            dispatcher.utter_message(text=f"\nWithout taking it into account, {recommend_movies_string(recommendations)}\n")
+            dispatcher.utter_message(text="\nTo make it easier for me, use capital letters for the beginning of names and try with quotation marks")
+        else:
+            dispatcher.utter_message(text=f"{recommend_movies_string(recommendations)}")
         return []

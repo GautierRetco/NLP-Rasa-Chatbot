@@ -20,7 +20,7 @@ def extract_entities_from_text(text):
     nlp = spacy.load("en_core_web_sm")
     doc = nlp(text)
     entities = [ent.text for ent in doc.ents]
-    return entities
+    return entities, len(entities)>0
 
 def find_closest_match_fuzzy(input_entity, database_entities):
     closest_match, score = process.extractOne(input_entity, database_entities)
@@ -37,23 +37,27 @@ def get_list_data (column_name, data) :
 
 def similarity_extraction_in_dict(dictionnary, data,expanded_keywords):
     new_dict = {}
+    failed_extractions = []
     for key, value in dictionnary.items():
         if isinstance(value, str) and key !='topic' and key !='genre':
-            entities = extract_entities_from_text(value)
-            entity = entities[0]
-            if key == 'target_movie_title':
-                entity = find_closest_match_fuzzy(entity, data['original_title'].tolist())
-            elif key =='director': 
-                all_directors = get_list_data('director', data)
-                entity = find_closest_match_fuzzy(entity, all_directors)
+            entities, extracted = extract_entities_from_text(value)
+            if extracted:
+                entity = entities[0]
+                if key == 'target_movie_title':
+                    entity = find_closest_match_fuzzy(entity, data['original_title'].tolist())
+                elif key =='director': 
+                    all_directors = get_list_data('director', data)
+                    entity = find_closest_match_fuzzy(entity, all_directors)
+                else : 
+                    entity = entity
+                new_dict[key]= entity
             else : 
-                entity = entity
-            new_dict[key]= entity
+                failed_extractions.append(value)
         elif isinstance(value, dict):
             new_dict[key] = similarity_extraction_in_dict(value,data,expanded_keywords)
         elif isinstance(value,list):
             for elem in value : 
-                entities = extract_entities_from_text(elem)
+                entities, extracted = extract_entities_from_text(elem)
                 entity = entities[0]
                 all_actors = get_list_data('cast', data)
                 entity = find_closest_match_fuzzy(entity, all_actors)
@@ -64,7 +68,7 @@ def similarity_extraction_in_dict(dictionnary, data,expanded_keywords):
             new_dict[key]= entity
         else:
             new_dict[key] = value
-    return new_dict
+    return new_dict, failed_extractions
 
 def get_recommendations_from_title(dict, data,cos_sim):
     title = dict['target_movie_title']
@@ -131,7 +135,7 @@ def filter_by_genre(data, value):
     return filtered_data
 
 def get_recommendations(dictionnary, data, cos_sim, expanded_keywords):
-    final_dictionnary = similarity_extraction_in_dict(dictionnary,data,expanded_keywords)
+    final_dictionnary, failed_extractions = similarity_extraction_in_dict(dictionnary,data,expanded_keywords)
     keys = final_dictionnary.keys()
     if 'target_movie_title' in keys : 
         recommendation = get_recommendations_from_title(final_dictionnary, data,cos_sim)
@@ -150,5 +154,5 @@ def get_recommendations(dictionnary, data, cos_sim, expanded_keywords):
                 filtered_data = filter_by_genre(filtered_data, value)
         filtered_data = filtered_data.sort_values(by='popularity', ascending=False)
         recommendation = filtered_data['original_title'].head(20).tolist()
-    return recommendation
+    return recommendation, failed_extractions
 
