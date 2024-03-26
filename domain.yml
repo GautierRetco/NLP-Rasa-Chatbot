@@ -7,7 +7,6 @@ intents:
   - inform_movie
   - inform_cast
   - inform_director
-  - inform_topic
 
 actions:
   - action_recommend_movie
