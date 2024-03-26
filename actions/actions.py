@@ -11,6 +11,7 @@ sys.path.append(os.path.abspath('recommendation_models'))
 import recommendation
 data = pd.read_csv("./recommendation_models/final_english_dataset_with_preprocess_on_overview.csv")
 cos_sim = joblib.load('./recommendation_models/matrix_similarity.pkl')
+expanded_keywords = joblib.load('./recommendation_models/expanded_keywords.pkl')
 
 def recommend_movies_string(movies):
     recommendation = "I can recommend you : \n"
@@ -27,11 +28,12 @@ def format_list(queries):
 class ActionDisplayEntityHistory(Action):
     def name(self) -> Text:
         return "action_recommend_movie"
-
+    
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         current_directory = os.getcwd()
+
         query = {}
         set = {}
         for event in reversed(tracker.events):
@@ -66,11 +68,11 @@ class ActionDisplayEntityHistory(Action):
         if set!={}:
             query["set"] = set
 
-        recommendations, failed_entities = recommendation.get_recommendations(query, data, cos_sim)
-        if len(failed_entities)>0:
-            dispatcher.utter_message(text = f"{format_list(failed_entities)}")
-            dispatcher.utter_message(text=f"\nWithout taking it into account, {recommend_movies_string(recommendations)}\n")
-            dispatcher.utter_message(text="\nTo make it easier for me, use capital letters for the beginning of names and try with quotation marks")
-        else:
-            dispatcher.utter_message(text=f"{recommend_movies_string(recommendations)}")
+        recommendations = recommendation.get_recommendations(query, data, cos_sim, expanded_keywords)
+        # if len(failed_entities)>0:
+        #     dispatcher.utter_message(text = f"{format_list(failed_entities)}")
+        dispatcher.utter_message(text=f"\nHere is the entities that I took in account for the recommandation, {query}\n")
+        #     dispatcher.utter_message(text="\nTo make it easier for me, use capital letters for the beginning of names and try with quotation marks")
+        # else:
+        dispatcher.utter_message(text=f"{recommend_movies_string(recommendations)}")
         return []
