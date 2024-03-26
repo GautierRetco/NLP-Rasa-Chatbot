@@ -211,3 +211,37 @@ nlu:
     - Matt Damon is a versatile actor
     - Emma Stone is incredibly talented
     - I would like a movie with Christian Bale
+
+- intent: inform_director
+  examples: |
+    - Can you suggest a movie directed by Ridley Scott?
+    - What films has David Fincher directed?
+    - I'm interested in movies by Tim Burton
+    - I love watching films directed by Stanley Kubrick
+    - Alfred Hitchcock is my favorite director
+    - Any recommendations by Guillermo del Toro?
+    - What are some movies directed by Clint Eastwood?
+    - I really admire the work of Francis Ford Coppola
+    - Is there a film by Sofia Coppola?
+    - Any suggestions by Quentin Tarantino?
+    - I'm a fan of Martin Scorsese's directing
+    - Ridley Scott is one of the best directors
+    - I enjoy watching movies directed by David Lynch
+    - Tim Burton's films are always fascinating
+    - Stanley Kubrick is a legendary director
+    - I'm a fan of Guillermo del Toro's movies
+    - Clint Eastwood is an incredible director
+    - Francis Ford Coppola's films are exceptional
+    - Sofia Coppola's directing is impressive
+    - Wes Anderson's movies are unique and captivating
+    - Quentin Tarantino's directing style is brilliant
+    - Martin Scorsese's films are masterpieces
+    - David Lynch's directing is mesmerizing
+    - Ridley Scott's movies are visually stunning
+    - Tim Burton's directing is imaginative
+    - Stanley Kubrick's films are thought-provoking
+    - Guillermo del Toro's movies are visually stunning
+    - Clint Eastwood's directing is powerful
+    - Francis Ford Coppola's work is iconic
+    - Sofia Coppola's movies are visually stunning
+    - Wes Anderson's directing style is unique and charming

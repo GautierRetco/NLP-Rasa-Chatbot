@@ -19,5 +19,4 @@ stories:
       - intent: inform_movie
       - intent: inform_cast
       - intent: inform_director
-      - intent: inform_topic
     - action: utter_go_on

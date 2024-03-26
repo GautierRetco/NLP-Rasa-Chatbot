@@ -159,7 +159,31 @@ def get_recommendations(dictionnary, data, cos_sim, expanded_keywords):
                         filtered_data = filter_by_director(filtered_data, second_value)
             if 'genre' ==key : 
                 filtered_data = filter_by_genre(filtered_data, value)
-        filtered_data = filtered_data.sort_values(by='popularity', ascending=False)
-        recommendation = filtered_data['original_title'].head(20).tolist()
+        if filtered_data.empty:
+            recommendation = []
+        else:
+            filtered_data = filtered_data.sort_values(by='popularity', ascending=False)
+            recommendation = filtered_data['original_title'].head(20).tolist()
     return recommendation, failed_extractions, final_dictionnary
 
+def get_recommendations_from_final_dict(final_dictionnary, data, cos_sim):
+    keys = final_dictionnary.keys()
+    if 'target_movie_title' in keys : 
+        recommendation = get_recommendations_from_title(final_dictionnary, data,cos_sim)
+    else : 
+        filtered_data = data.copy()
+        for key, value in final_dictionnary.items():
+            if 'set' == key : 
+                for second_key, second_value in value.items() :
+                    if 'cast' ==second_key: 
+                        filtered_data =  filter_by_cast(filtered_data, second_value)
+                    else: 
+                        filtered_data = filter_by_director(filtered_data, second_value)
+            if 'genre' ==key : 
+                filtered_data = filter_by_genre(filtered_data, value)
+        if filtered_data.empty:
+            recommendation = []
+        else : 
+            filtered_data = filtered_data.sort_values(by='popularity', ascending=False)
+            recommendation = filtered_data['original_title'].head(20).tolist()
+    return recommendation
