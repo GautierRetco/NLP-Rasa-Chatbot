@@ -16,17 +16,17 @@ expanded_keywords = joblib.load('./recommendation_models/expanded_keywords.pkl')
 
 def recommend_movies_string(movies, final_dictionnary):
     if movies!=[]:
-        recommendation = "I can recommend you : \n"
+        recommendation = "\nI can recommend you : \n"
         for i, movie in enumerate(movies, start=1):
             recommendation += f"{i}. {movie}\n"
     else : 
-        recommendation = "Sorry, I didn't manage to find any movie matching your query.\n"
+        recommendation = "\nSorry, I didn't manage to find any movie matching your query.\n"
         bfs_movies, bfs_dictionnary = bfs(final_dictionnary)
         if bfs_movies != []:
-            recommendation += "Though, I managed to get a result by only taking into account those counstraints :"
+            recommendation += "Though, I managed to get a result by only taking into account those counstraints :\n"
             for key, value in bfs_dictionnary.items():
                 recommendation += f"{key} : {value}\n"
-            recommendation += "Then the result is : \n"
+            recommendation += "\nThen the result is : \n"
             for i, movie in enumerate(bfs_movies, start=1):
                 recommendation += f"{i}. {movie}\n"
     return recommendation
