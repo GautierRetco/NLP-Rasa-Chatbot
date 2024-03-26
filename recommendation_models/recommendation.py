@@ -2,7 +2,7 @@ import pandas as pd
 import spacy
 from fuzzywuzzy import process
 import joblib
-
+import time
 import re
 from nltk.stem import WordNetLemmatizer
 lemmatizer = WordNetLemmatizer()
@@ -23,9 +23,12 @@ def extract_entities_from_text(text):
     return entities, len(entities)>0
 
 def find_closest_match_fuzzy(input_entity, database_entities):
-    closest_match, score = process.extractOne(input_entity, database_entities)
-    if score < 70:  
-        return None  
+    if not input_entity in database_entities:
+        closest_match, score = process.extractOne(input_entity, database_entities)
+        if score < 70:  
+            return None  
+    else : 
+        closest_match = input_entity
     return closest_match
 
 def get_list_data (column_name, data) :
