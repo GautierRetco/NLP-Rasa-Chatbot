@@ -110,6 +110,8 @@ nlu:
   examples: |
     - Can you suggest a movie similar to Inception?
     - I enjoyed The Dark Knight
+    - I'd like a movie like Inception
+    - I would like a movie like Jurassic Park
     - What movies are similar to The Matrix?
     - I'm looking for something like Interstellar
     - Do you have any recommendations similar to Fight Club?
