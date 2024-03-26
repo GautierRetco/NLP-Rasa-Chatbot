@@ -2,5 +2,6 @@
 .rasa/
 /actions/__pycache__
 /models
+/results
 /recommendation_models/__pycache__
 /recommendation_models/matrix_similarity.pkl

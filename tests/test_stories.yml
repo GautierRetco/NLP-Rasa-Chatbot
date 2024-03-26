@@ -2,90 +2,465 @@
 #### If you want to learn more, please see the docs: https://rasa.com/docs/rasa/testing-your-assistant
 
 stories:
-- story: happy path 1
-  steps:
-  - user: |
-      hello there!
-    intent: greet
-  - action: utter_greet
-  - user: |
-      amazing
-    intent: mood_great
-  - action: utter_happy
 
-- story: happy path 2
-  steps:
-  - user: |
-      hello there!
-    intent: greet
-  - action: utter_greet
-  - user: |
-      amazing
-    intent: mood_great
-  - action: utter_happy
-  - user: |
-      bye-bye!
-    intent: goodbye
-  - action: utter_goodbye
+# tests on greetings
 
-- story: sad path 1
+- story: Salutations basiques
   steps:
   - user: |
-      hello
-    intent: greet
-  - action: utter_greet
-  - user: |
-      not good
-    intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - user: |
-      yes
-    intent: affirm
-  - action: utter_happy
+      Hello
+    intent: greetings
+  - action: utter_presentation
+  - action: utter_information
 
-- story: sad path 2
+- story: Salutations avec question
   steps:
   - user: |
-      hello
-    intent: greet
-  - action: utter_greet
-  - user: |
-      not good
-    intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - user: |
-      not really
-    intent: deny
-  - action: utter_goodbye
+      Evening, how are you?
+    intent: greetings
+  - action: utter_presentation
+  - action: utter_information
 
-- story: sad path 3
+- story: Salutations informelles
   steps:
   - user: |
-      hi
-    intent: greet
-  - action: utter_greet
-  - user: |
-      very terrible
-    intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - user: |
-      no
-    intent: deny
-  - action: utter_goodbye
+      Yo
+    intent: greetings
+  - action: utter_presentation
+  - action: utter_information
 
-- story: say goodbye
+- story: Salutations non présente dans les examples
   steps:
   - user: |
-      bye-bye!
-    intent: goodbye
-  - action: utter_goodbye
+      Morning!
+    intent: greetings
+  - action: utter_presentation
+  - action: utter_information
 
-- story: bot challenge
+- story: Salutations avec demande de but
   steps:
   - user: |
-      are you a bot?
-    intent: bot_challenge
-  - action: utter_iamabot
+      Hello, what are you?
+    intent: greetings
+  - action: utter_presentation
+  - action: utter_information
+
+- story: Salutations avec indication de perte
+  steps:
+  - user: |
+      I am lost
+    intent: greetings
+  - action: utter_presentation
+  - action: utter_information
+
+- story: Salutations non reconnues
+  steps:
+  - user: |
+      Bonjour
+    intent: None
+  - action: utter_presentation
+  - action: utter_information
+
+
+# tests on user_ask_movie
+
+- story: Utilisateur demande un film
+  steps:
+  - user: |
+      Could you suggest a good movie?
+    intent: user_ask_movie
+  - action: action_recommend_movie
+
+- story: Utilisateur cherche des suggestions de films
+  steps:
+  - user: |
+      Got any good movie suggestions?
+    intent: user_ask_movie
+  - action: action_recommend_movie
+
+- story: Utilisateur cherche des films intéressants
+  steps:
+  - user: |
+      Do you know any interesting movies?
+    intent: user_ask_movie
+  - action: action_recommend_movie
+
+- story: Utilisateur cherche des recommandations de films
+  steps:
+  - user: |
+      Any good movies you'd recommend?
+    intent: user_ask_movie
+  - action: action_recommend_movie
+
+- story: Utilisateur cherche une recommandation de film
+  steps:
+  - user: |
+      Looking for a movie recommendation, what do you have?
+    intent: user_ask_movie
+  - action: action_recommend_movie
+
+- story: Utilisateur cherche des idées de films
+  steps:
+  - user: |
+      Interested in discovering a new movie, any ideas?
+    intent: user_ask_movie
+  - action: action_recommend_movie
+
+- story: Utilisateur cherche une recommandation de film
+  steps:
+  - user: |
+      What movie would you suggest for a fun night?
+    intent: user_ask_movie
+  - action: action_recommend_movie
+
+- story: Utilisateur cherche une recommandation de film
+  steps:
+  - user: |
+      Any favorite movies you'd like to share?
+    intent: user_ask_movie
+  - action: action_recommend_movie
+
+# tests on inform_genre
+
+- story: Utilisateur cherche des films d'aventure
+  steps:
+  - user: |
+      Any adventure films out there?
+    intent: inform_genre
+  - action: utter_go_on
+
+- story: Utilisateur cherche des films de guerre
+  steps:
+  - user: |
+      I like war movies
+    intent: inform_genre
+  - action: utter_go_on
+
+- story: Utilisateur recherche des films d'horreur
+  steps:
+  - user: |
+      Do you have any horror recommendations?
+    intent: inform_genre
+  - action: utter_go_on
+
+- story: Utilisateur cherche des films musicaux
+  steps:
+  - user: |
+      I'm a fan of music movies
+    intent: inform_genre
+  - action: utter_go_on
+
+- story: Utilisateur veut des films de science-fiction
+  steps:
+  - user: |
+      Recommend me a sci-fi movie
+    intent: inform_genre
+  - action: utter_go_on
+
+- story: Utilisateur demande des films d'animation
+  steps:
+  - user: |
+      How about animation films?
+    intent: inform_genre
+  - action: utter_go_on
+
+- story: Utilisateur recherche des films de comédie
+  steps:
+  - user: |
+      a funny movie?
+    intent: inform_genre
+  - action: utter_go_on
+
+- story: Utilisateur veut des films romantiques
+  steps:
+  - user: |
+      Give me some romanantic movies?
+    intent: inform_genre
+  - action: utter_go_on
+
+- story: Utilisateur recherche des films fantastiques
+  steps:
+  - user: |
+      I'm interested in fantasy movies
+    intent: inform_genre
+  - action: utter_go_on
+
+- story: Utilisateur demande un drama
+  steps:
+  - user: |
+      I want to watch a drama
+    intent: inform_genre
+  - action: utter_go_on
+
+
+# tests on inform_movie
+
+- story: Utilisateur veut des films similaires à Inception
+  steps:
+  - user: |
+      Got any suggestions for a movie like Inception
+    intent: inform_movie
+  - action: utter_go_on
+
+- story: Utilisateur a aimé The Dark Knight
+  steps:
+  - user: |
+      "I really liked watching The Dark Knight."
+    intent: inform_movie
+  - action: utter_go_on
+
+- story: Utilisateur cherche des films similaires à The Matrix
+  steps:
+  - user: |
+      Are there any films comparable to The Matrix?
+    intent: inform_movie
+  - action: utter_go_on
+
+- story: Utilisateur recherche quelque chose comme Interstellar
+  steps:
+  - user: |
+      I'm in search of something akin to Interstellar.
+    intent: inform_movie
+  - action: utter_go_on
+
+- story: Utilisateur demande des recommandations similaires à Fight Club
+  steps:
+  - user: |
+      Any recommendations for movies similar to Fight Club??
+    intent: inform_movie
+  - action: utter_go_on
+
+- story: Utilisateur veut un film dans le même esprit que Pulp Fiction
+  steps:
+  - user: |
+      Can you suggest a movie in the same vein as Pulp Fiction?
+    intent: inform_movie
+  - action: utter_go_on
+
+- story: Utilisateur est intéressé par des films comme The Shawshank Redemption
+  steps:
+  - user: |
+      I'm interested in movies like The Shawshank Redemption
+    intent: inform_movie
+  - action: utter_go_on
+
+- story: Utilisateur veut des suggestions similaires à Forrest Gump
+  steps:
+  - user: |
+      Any suggestions similar to Forrest Gump?
+    intent: inform_movie
+  - action: utter_go_on
+
+- story: Utilisateur cherche des films comparables au Parrain
+  steps:
+  - user: |
+      What movies are comparable to The Godfather?
+    intent: inform_movie
+  - action: utter_go_on
+
+- story: Utilisateur est fan de Titanic, veut-il quelque chose de similaire?
+  steps:
+  - user: |
+      I'm a fan of Titanic, anything similar?
+    intent: inform_movie
+  - action: utter_go_on
+
+# tests on inform_cast
+- story: Utilisateur aime Leonardo DiCaprio
+  steps:
+  - user: |
+      I really like Leonardo DiCaprio
+    intent: inform_cast
+  - action: utter_go_on
+
+- story: Utilisateur pense que Tom Hanks est incroyable
+  steps:
+  - user: |
+      Tom Hanks is amazing
+    intent: inform_cast
+  - action: utter_go_on
+
+- story: Utilisateur est un grand fan de Brad Pitt
+  steps:
+  - user: |
+      I'm a huge fan of Brad Pitt
+    intent: inform_cast
+  - action: utter_go_on
+
+- story: Utilisateur apprécie Jennifer Lawrence
+  steps:
+  - user: |
+      Jennifer Lawrence is a talented actress
+    intent: inform_cast
+  - action: utter_go_on
+
+- story: Utilisateur aime Tom Cruise
+  steps:
+  - user: |
+      Tom Cruise is one of my favorite actors
+    intent: inform_cast
+  - action: utter_go_on
+
+- story: Utilisateur est captivé par les performances de Johnny Depp
+  steps:
+  - user: |
+      Johnny Depp's performances are always captivating
+    intent: inform_cast
+  - action: utter_go_on
+
+- story: Utilisateur pense que Robert Downey Jr. est brillant
+  steps:
+  - user: |
+      Robert Downey Jr. is brilliant
+    intent: inform_cast
+  - action: utter_go_on
+
+- story: Utilisateur admire Angelina Jolie
+  steps:
+  - user: |
+      Angelina Jolie is a versatile actress
+    intent: inform_cast
+  - action: utter_go_on
+
+
+# tests on inform_composer
+- story: Utilisateur apprécie Hans Zimmer
+  steps:
+  - user: |
+      I really like Hans Zimmer's film scores
+    intent: inform_composer
+  - action: utter_go_on
+
+- story: Utilisateur demande les films de Howard Shore
+  steps:
+  - user: |
+      What films has Howard Shore composed music for?
+    intent: inform_composer
+  - action: utter_go_on
+
+- story: Utilisateur veut des recommandations avec Michael Giacchino
+  steps:
+  - user: |
+      Any recommendations with music by Michael Giacchino?
+    intent: inform_composer
+  - action: utter_go_on
+
+- story: Utilisateur admire James Newton Howard
+  steps:
+  - user: |
+      I really admire James Newton Howard's work
+    intent: inform_composer
+  - action: utter_go_on
+
+- story: Utilisateur demande les films avec Jerry Goldsmith
+  steps:
+  - user: |
+      Is there a movie with music by Jerry Goldsmith?
+    intent: inform_composer
+  - action: utter_go_on
+
+- story: Utilisateur aime les compositions d'Alexandre Desplat
+  steps:
+  - user: |
+      I love listening to Alexandre Desplat's film music
+    intent: inform_composer
+  - action: utter_go_on
+
+- story: Utilisateur demande des suggestions similaires à John Powell
+  steps:
+  - user: |
+      Any suggestions with music by John Powell?
+    intent: inform_composer
+  - action: utter_go_on
+
+- story: Utilisateur veut connaître les compositeurs similaires à Hans Zimmer
+  steps:
+  - user: |
+      Who are some composers similar to Hans Zimmer?
+    intent: inform_composer
+  - action: utter_go_on
+
+- story: Utilisateur est ému par les compositions émotionnelles de Thomas Newman
+  steps:
+  - user: |
+      Thomas Newman's scores are emotionally stirring
+    intent: inform_composer
+  - action: utter_go_on
+
+- story: Utilisateur apprécie les scores énergétiques de John Powell
+  steps:
+  - user: |
+      John Powell's scores are energetic
+    intent: inform_composer
+  - action: utter_go_on
+
+# tests on inform_topic
+- story: Film avec des zombies
+  steps:
+  - user: |
+      A movie with zombies
+    intent: inform_topic
+  - action: utter_go_on
+
+- story: Film sur l'intelligence artificielle
+  steps:
+  - user: |
+      I'm looking for a film about artificial intelligence
+    intent: inform_topic
+  - action: utter_go_on
+
+- story: Recommandation pour un film sur les super-héros
+  steps:
+  - user: |
+      Any recommendations for a film about superheroes?
+    intent: inform_topic
+  - action: utter_go_on
+
+- story: Film sur la quête d'un trésor
+  steps:
+  - user: |
+      Any recommendations for a film about the quest for treasure?
+    intent: inform_topic
+  - action: utter_go_on
+
+- story: Recherche d'un film sur les voyages dans le temps
+  steps:
+  - user: |
+      I'm interested in films about time travel
+    intent: inform_topic
+  - action: utter_go_on
+
+- story: Film sur les aventures sous-marines
+  steps:
+  - user: |
+      What movies are about underwater adventures?
+    intent: inform_topic
+  - action: utter_go_on
+
+- story: Film sur la romance interdite
+  steps:
+  - user: |
+      Can you suggest a film about a forbidden romance?
+    intent: inform_topic
+  - action: utter_go_on
+
+- story: Film sur la vie au lycée
+  steps:
+  - user: |
+      I'm interested in movies about high school life
+    intent: inform_topic
+  - action: utter_go_on
+
+- story: Film sur la lutte pour la survie
+  steps:
+  - user: |
+      Can you suggest a film about the struggle for survival?
+    intent: inform_topic
+  - action: utter_go_on
+
+- story: Film sur la mythologie ancienne
+  steps:
+  - user: |
+      What movies are about ancient mythology?
+    intent: inform_topic
+  - action: utter_go_on
